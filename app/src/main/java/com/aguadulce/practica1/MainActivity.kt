@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Practica1Theme {
-                FactoryCalculatorScreen()
+                WorkoutTrackerScreen()
 
                 }
             }
