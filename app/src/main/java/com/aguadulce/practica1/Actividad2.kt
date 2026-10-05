@@ -20,7 +20,9 @@ import androidx.compose.ui.unit.sp
 fun WorkoutTrackerScreen() {
     // TODO 1: Crea las variables de estado
     // 1. Un estado 'exerciseInput' de tipo String para lo que el usuario escribe.
+    var exerciseInput by remember { mutableStateOf("") }
     // 2. Un estado 'workoutList' que sea una lista reactiva.
+    val workoutList = remember { mutableStateListOf<String>()  }
 
     Column(
         modifier = Modifier
@@ -42,8 +44,8 @@ fun WorkoutTrackerScreen() {
         ) {
             OutlinedTextField(
                 // TODO 2: Conecta este campo de texto con tu variable 'exerciseInput'
-                value = "", // Cambia esto
-                onValueChange = { /* Actualiza aquí */ },
+                value = exerciseInput, // Cambia esto
+                onValueChange = { exerciseInput = it },
                 label = { Text("Añadir movimiento (ej. Dominadas)") },
                 modifier = Modifier.weight(1f)
             )
@@ -55,9 +57,15 @@ fun WorkoutTrackerScreen() {
                     // - Comprueba que 'exerciseInput' no esté vacío (puedes usar .isNotBlank())
                     // - Añade el texto a tu lista 'workoutList'
                     // - Vacía la variable 'exerciseInput' poniéndola a "" para que el campo se limpie
+                    if (exerciseInput.isNotBlank()) {
+                        workoutList.add(exerciseInput)
+                        exerciseInput = ""
+                    }
                 }
             ) {
-                Icon(painter = painterResource(id = R.drawable.add_icon), contentDescription = "Añadir")
+                Icon(painter = painterResource(id = R.drawable.add_icon),
+                    contentDescription = "Añadir",
+                    modifier = Modifier.size(48.dp))
             }
         }
 
@@ -66,14 +74,12 @@ fun WorkoutTrackerScreen() {
         // LISTA DIFERIDA (RecyclerView de Compose)
 
         // TODO 4: Borra esta lista falsa. Solo está aquí para que el código compile al principio.
-        val listaFalsa = listOf("Dominadas", "Flexiones")
-
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             // TODO 5: Cambia 'listaFalsa' por tu variable 'workoutList'
-            items(listaFalsa) { exercise ->
+            items(workoutList) { exercise ->
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -91,12 +97,14 @@ fun WorkoutTrackerScreen() {
                             onClick = {
                                 // TODO 6: Lógica para borrar un elemento
                                 // - Elimina el elemento 'exercise' de tu 'workoutList'
+                                workoutList.remove(exercise)
                             }
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.delete_icon),
                                 contentDescription = "Borrar",
-                                tint = MaterialTheme.colorScheme.error
+                                tint = MaterialTheme.colorScheme.error,
+                                modifier = Modifier.size(48.dp)
                             )
                         }
                     }
