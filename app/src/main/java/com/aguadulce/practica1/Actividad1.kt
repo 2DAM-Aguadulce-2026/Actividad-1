@@ -60,7 +60,7 @@ fun FactoryCalculatorScreen() {
                 // - Si el número ES nulo (el campo estaba vacío), guarda en 'resultText' un mensaje de Error.
                 val mineral = inputAmount.toDoubleOrNull()
                 if (mineral!=null && mineral>=0){
-                    val conversion = 2.5
+                    val conversion = 5
                     val produccion = mineral * conversion
                     resultText= "Se obtiene " + produccion + " unidades de material procesado."
                 }else{
