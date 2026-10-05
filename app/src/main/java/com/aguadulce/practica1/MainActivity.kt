@@ -19,7 +19,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Practica1Theme {
-                FactoryCalculatorScreen()
+                //Ejercicio 1: FactoryCalculatorScreen()
+                /*Ejercicio 2: */WorkoutTrackerScreen()
             }
         }
     }
