@@ -24,6 +24,9 @@ fun FactoryCalculatorScreen() {
     // 1. Una variable llamada 'inputAmount' para guardar lo que escribe el usuario
     // 2. Una variable llamada 'resultText' para el mensaje de abajo (empieza como "Esperando datos...")
 
+    var inputAmount by remember { mutableStateOf("") }
+    var resultText by remember { mutableStateOf("Esperando datos...") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,8 +44,8 @@ fun FactoryCalculatorScreen() {
         // ENTRADA DE DATOS
         OutlinedTextField(
             // TODO 2: Conecta 'value' a tu variable 'inputAmount' y actualízala en 'onValueChange'
-            value = "", // Cambia esto
-            onValueChange = { /* Actualiza aquí tu estado */ },
+            value = inputAmount, // Cambia esto
+            onValueChange = { inputAmount = it },
             label = { Text("Cantidad de Mineral") },
             // keyboardOptions = //Completa aquí,
             modifier = Modifier.fillMaxWidth()
@@ -56,6 +59,16 @@ fun FactoryCalculatorScreen() {
                 // - Convierte tu variable 'inputAmount' a número.
                 // - Si el número NO es nulo, multiplícalo por (piensa en la proporción) y guarda el mensaje en 'resultText'.
                 // - Si el número ES nulo (el campo estaba vacío), guarda en 'resultText' un mensaje de Error.
+                val cantidad = inputAmount.toIntOrNull()
+
+                if(cantidad != null){
+                    val result = cantidad * 9
+
+                    resultText = "Tendrías $result pepitas."
+
+                } else {
+                    resultText = "Error: La cantidad introducida no es valida o esta vacia."
+                }
 
             },
             modifier = Modifier.fillMaxWidth()
@@ -73,7 +86,7 @@ fun FactoryCalculatorScreen() {
             // TODO 4: Muestra aquí el valor de tu variable 'resultText'
             // Crea un text con un padding, un tam de fuente, un color y un fontweight. (Que no se te olvide poner Resultado)
             Text(
-                text = "Resultado aquí", // Cambia esto
+                text = resultText, // Cambia esto
                 modifier = Modifier.padding(16.dp),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
