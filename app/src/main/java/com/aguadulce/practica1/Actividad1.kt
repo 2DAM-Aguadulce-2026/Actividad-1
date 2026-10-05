@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 
 @Preview (showBackground = true)
 @Composable
-fun show(){
+fun Show(){
     FactoryCalculatorScreen()
 }
 
@@ -22,7 +22,9 @@ fun show(){
 fun FactoryCalculatorScreen() {
     // TODO 1: Crea dos variables de estado usando remember { mutableStateOf(...) }
     // 1. Una variable llamada 'inputAmount' para guardar lo que escribe el usuario
+    var inputAmount by remember { mutableStateOf("") }
     // 2. Una variable llamada 'resultText' para el mensaje de abajo (empieza como "Esperando datos...")
+    var resultText by remember { mutableStateOf("Esperando datos...") }
 
     Column(
         modifier = Modifier
@@ -41,10 +43,10 @@ fun FactoryCalculatorScreen() {
         // ENTRADA DE DATOS
         OutlinedTextField(
             // TODO 2: Conecta 'value' a tu variable 'inputAmount' y actualízala en 'onValueChange'
-            value = "", // Cambia esto
-            onValueChange = { /* Actualiza aquí tu estado */ },
+            value = inputAmount,
+            onValueChange = { inputAmount=it },
             label = { Text("Cantidad de Mineral") },
-            // keyboardOptions = //Completa aquí,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -56,7 +58,14 @@ fun FactoryCalculatorScreen() {
                 // - Convierte tu variable 'inputAmount' a número.
                 // - Si el número NO es nulo, multiplícalo por (piensa en la proporción) y guarda el mensaje en 'resultText'.
                 // - Si el número ES nulo (el campo estaba vacío), guarda en 'resultText' un mensaje de Error.
-
+                val mineral = inputAmount.toDoubleOrNull()
+                if (mineral!=null && mineral>=0){
+                    val conversion = 2.5
+                    val produccion = mineral * conversion
+                    resultText= "Se obtiene " + produccion + " unidades de material procesado."
+                }else{
+                    resultText="Error: numero introducido no valido tiene que ser mayor o igual a 0"
+                }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -73,7 +82,7 @@ fun FactoryCalculatorScreen() {
             // TODO 4: Muestra aquí el valor de tu variable 'resultText'
             // Crea un text con un padding, un tam de fuente, un color y un fontweight. (Que no se te olvide poner Resultado)
             Text(
-                text = "Resultado aquí", // Cambia esto
+                text = resultText, // Cambia esto
                 modifier = Modifier.padding(16.dp),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
