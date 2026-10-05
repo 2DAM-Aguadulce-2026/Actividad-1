@@ -1,4 +1,5 @@
 package com.aguadulce.practica1
+import androidx.compose.foundation.layout.Box
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,13 +19,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Practica1Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            Practica1Theme(){
+                FactoryCalculatorScreen()
             }
         }
     }
