@@ -12,17 +12,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-@Preview (showBackground = true)
+private const val PROPORCION = 1.15
+
+@Preview(showBackground = true)
 @Composable
-fun show(){
+fun show() {
     FactoryCalculatorScreen()
 }
 
 @Composable
 fun FactoryCalculatorScreen() {
     // TODO 1: Crea dos variables de estado usando remember { mutableStateOf(...) }
-    // 1. Una variable llamada 'inputAmount' para guardar lo que escribe el usuario
-    // 2. Una variable llamada 'resultText' para el mensaje de abajo (empieza como "Esperando datos...")
+    var inputAmount by remember { mutableStateOf("") }
+    var resultText by remember { mutableStateOf("Esperando datos...") }
 
     Column(
         modifier = Modifier
@@ -38,32 +40,31 @@ fun FactoryCalculatorScreen() {
             modifier = Modifier.padding(top = 16.dp)
         )
 
-        // ENTRADA DE DATOS
+        // TODO 2: Conecta 'value' a tu variable 'inputAmount' y actualízala en 'onValueChange'
         OutlinedTextField(
-            // TODO 2: Conecta 'value' a tu variable 'inputAmount' y actualízala en 'onValueChange'
-            value = "", // Cambia esto
-            onValueChange = { /* Actualiza aquí tu estado */ },
+            value = inputAmount,
+            onValueChange = { inputAmount = it },
             label = { Text("Cantidad de Mineral") },
-            // keyboardOptions = //Completa aquí,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth()
         )
 
-        // BOTÓN Y LÓGICA
         Button(
             onClick = {
                 // TODO 3: Programa la lógica de la calculadora
-                // PISTAS:
-                // - Convierte tu variable 'inputAmount' a número.
-                // - Si el número NO es nulo, multiplícalo por (piensa en la proporción) y guarda el mensaje en 'resultText'.
-                // - Si el número ES nulo (el campo estaba vacío), guarda en 'resultText' un mensaje de Error.
-
+                val numero = inputAmount.toDoubleOrNull()
+                resultText = if (numero != null) {
+                    val resultado = numero * PROPORCION
+                    "Con $numero de mineral obtienes ${"%.2f".format(resultado)} lingotes"
+                } else {
+                    "Error: introduce una cantidad válida"
+                }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Procesar")
         }
 
-        // RESULTADO VISUAL
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -71,9 +72,8 @@ fun FactoryCalculatorScreen() {
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
         ) {
             // TODO 4: Muestra aquí el valor de tu variable 'resultText'
-            // Crea un text con un padding, un tam de fuente, un color y un fontweight. (Que no se te olvide poner Resultado)
             Text(
-                text = "Resultado aquí", // Cambia esto
+                text = "Resultado: $resultText",
                 modifier = Modifier.padding(16.dp),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
