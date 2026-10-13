@@ -75,7 +75,7 @@ fun WorkoutTrackerScreen() {
 
         // TODO 4: Borra esta lista falsa. Solo está aquí para que el código compile al principio.
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().weight(1f),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             // TODO 5: Cambia 'listaFalsa' por tu variable 'workoutList'
